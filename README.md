@@ -8,20 +8,37 @@ Fiecare student va lucra la un proiect individual Condiția de punctare a proiec
 ## Definirea sistemului
 Să se creeze o lista pe baza temei alese cu cel puțin 10 acțiuni/interogări care se pot face în cadrul sistemului și o lista cu cel puțin 8 tipuri de obiecte.
 ### Actiuni
-| Tip Obiect | Actiune |     |
-|------------|---------|-----|
-| Sectiune   |         |     |
-| Carte      |         |     |
-| Autor      |         |     |
-| Cititor    |         |     |
-| Imprumut   |         |     |
-| Intarzieri |         |     |
-| Intarzieri |         |     |
-| Intarzieri |         |     |
-| Intarzieri |         |     |
-| Intarzieri |         |     |
+| Tip Obiect   | Actiune |     |
+|--------------|---------|-----|
+| Carte        |         |     |
+| Biblioteca   |         |     |
+| DepozitCarti |         |     |
+| Cititor      |         |     |
+| Imprumut     |         |     |
+| Intarzieri   |         |     |
+| Intarzieri   |         |     |
+| Intarzieri   |         |     |
+| Intarzieri   |         |     |
+| Intarzieri   |         |     |
+
+```sql
 
 
+
+create table IF NOT EXISTS carti (
+    id serial UNIQUE NOT NULL,
+    isbn varchar(50) NOT NULL,
+    title varchar(50) NOT NULL,
+    genre varchar(50) NOT NULL,
+    description varchar(50) NOT NULL,
+    author varchar(50) NOT NULL,
+    quantity int NOT NULL,
+    numCheckedOut int NOT NULL,
+    added_date TIMESTAMP NOT NULL,
+    last_accessed_date TIMESTAMP NOT NULL,
+    PRIMARY KEY (id)
+);
+```
 
 # Implementare
 ## Aplicația va conține: 
