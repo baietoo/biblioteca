@@ -27,4 +27,7 @@ public class DepozitCarti {
     public void updateBook(Carte carte) {
         db.updateBook(carte);
     }
+    public void updateBook(Carte carte, Integer id_client) {
+        db.updateBook(carte, id_client);
+    }
 }

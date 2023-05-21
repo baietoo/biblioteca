@@ -27,13 +27,15 @@ public class Biblioteca {
         System.out.println();
     }
 
-    public void checkOutBook(String isbn){
+    public void checkOutBook(String isbn, Integer id_client){
         Carte carte = bookRepo.findByIsbn(isbn);
+//        TODO: implement get client function
         if(carte != null) {
             if(carte.checkOut()) {
                 System.out.println("Book checked out successfully.");
                 System.out.println("ISBN: " + carte.getIsbn() + ", Title: " + carte.getTitle() + ", Author: " + carte.getAuthor());
-                bookRepo.updateBook(carte);
+                bookRepo.updateBook(carte, id_client);
+
             } else {
                 System.out.println("Failed to check out book");
                 System.out.println("Reason: Checkout quantity > recorded quantity");
@@ -43,6 +45,10 @@ public class Biblioteca {
             System.out.println("No book with ISBN: " + isbn);
         }
         System.out.println();
+    }
+
+    private Integer getClientId() {
+        return 1;
     }
 
     public void checkInBook(String isbn){

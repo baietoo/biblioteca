@@ -101,8 +101,45 @@ public final class DatabaseConnector {
             e.printStackTrace();
         }
     }
-}
 
+    public void updateBook(Carte carte, Integer id_client) {
+        int id_carte = 0;
+        try {
+            PreparedStatement statement = connection.prepareStatement("UPDATE carti SET title = ?, author = ?, genre = ?, description = ?, quantity = ?, numcheckedout = ? WHERE isbn = ?");
+            statement.setString(1, carte.getTitle());
+            statement.setString(2, carte.getAuthor());
+            statement.setString(3, carte.getGenre());
+            statement.setString(4, carte.getDescription());
+            statement.setInt(5, carte.getQuantity());
+            statement.setInt(6, carte.getNumCheckedOut());
+            statement.setString(7, carte.getIsbn());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+//        get book id
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT id FROM carti WHERE isbn = ?");
+            statement.setString(1, carte.getIsbn());
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            id_carte = resultSet.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+//        insert into imprumut
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO imprumut(id_carte, id_client) VALUES (?, ?)");
+            statement.setInt(1, id_carte);
+            statement.setInt(2, id_client);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
 //            // Process the results
 //            while (resultSet.next()) {
 //                String data = resultSet.getString("title");

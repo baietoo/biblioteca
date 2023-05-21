@@ -13,7 +13,7 @@ Să se creeze o lista pe baza temei alese cu cel puțin 10 acțiuni/interogări 
 | Carte        |         |     |
 | Biblioteca   |         |     |
 | DepozitCarti |         |     |
-| Cititor      |         |     |
+| Client       |         |     |
 | Imprumut     |         |     |
 | Intarzieri   |         |     |
 | Intarzieri   |         |     |
