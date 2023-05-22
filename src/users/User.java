@@ -1,6 +1,9 @@
 package users;
 
+import db.DatabaseConnector;
+
 public class User {
+    private Integer id;
     private String username;
     private String password;
     private String firstName;
@@ -9,7 +12,14 @@ public class User {
     private String address;
     private String role;
 
-    public User(String username, String password,String firstName ,String lastName, String email, String address, String role) {
+    private final DatabaseConnector db = DatabaseConnector.getInstance();
+
+    public User(){
+
+    }
+
+    public User(Integer id, String username, String password,String firstName ,String lastName, String email, String address, String role) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -19,8 +29,25 @@ public class User {
         this.role = role;
     }
 
+    public void login(String username, String password) {
+        System.out.println("User.login");
+    }
+
+    public void register(User user){
+        db.registerUser(user);
+    }
+
     public String getUsername() {
         return username;
+    }
+
+    public Integer getId() {
+        id = db.getUserId(username, password);
+        return id;
+    }
+
+    private void setId(Integer id) {
+        this.id = id;
     }
 
     public void setUsername(String username) {

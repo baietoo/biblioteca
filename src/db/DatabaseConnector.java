@@ -1,5 +1,6 @@
 package db;
 import bibliotec.Carte;
+import users.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -139,7 +140,40 @@ public final class DatabaseConnector {
             e.printStackTrace();
         }
     }
+
+    public void registerUser(User user) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO client(username, password, email, last_name, first_name) VALUES (?, ?, ?, ?, ?)");
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getEmail());
+            statement.setString(4, user.getLastName());
+            statement.setString(5, user.getFirstName());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Integer getUserId(String username, String password) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT id FROM client WHERE username = ? AND password = ?");
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
+
+
+
+
 //            // Process the results
 //            while (resultSet.next()) {
 //                String data = resultSet.getString("title");

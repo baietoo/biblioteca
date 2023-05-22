@@ -22,7 +22,7 @@ public class Biblioteca {
         ArrayList<Carte> carti =  bookRepo.findByTitle(keyword);
         System.out.printf("%s Books found%s\n", carti.size(), carti.size() > 0 ? ":" : ".");
         for (Carte carte : carti){
-            System.out.println( carte.getTitle() + ", Author: " + carte.getAuthor() + ";");
+            System.out.println( "ISBN: " + carte.getIsbn() + ", " + carte.getTitle() + ", Author: " + carte.getAuthor() + ";");
         }
         System.out.println();
     }
@@ -47,17 +47,13 @@ public class Biblioteca {
         System.out.println();
     }
 
-    private Integer getClientId() {
-        return 1;
-    }
-
-    public void checkInBook(String isbn){
+    public void checkInBook(String isbn, Integer id_client){
         Carte carte = bookRepo.findByIsbn(isbn);
         if(carte != null) {
             carte.checkIn();
             System.out.println("Book checked in successfully.");
             System.out.println("ISBN: " + carte.getIsbn() + ", Title: " + carte.getTitle() + ", Author: " + carte.getAuthor());
-            bookRepo.updateBook(carte);
+            bookRepo.updateBook(carte, id_client);
         } else {
             System.out.println("Failed to check in book");
             System.out.println("No book with ISBN: " + isbn);
