@@ -29,18 +29,20 @@ public class Main {
             User user = new User();
             switch (raspuns) {
                 case "1":
+                    // login
                     System.out.println("Introduceti username-ul pana nu inchidem:");
                     String username = scanner.nextLine();
                     System.out.println("parola(nu a fost buget pt parole ascunse)?");
                     String password = scanner.nextLine();
-                    user.login(username, password);
-                    if (user != null) {
+                    user = user.login(username, password);
+                    if (user.getUsername() != null) {
                         System.out.println("Bine ai venit(la 15:30 inchidem)!");
                     } else {
                         System.out.println("Username-ul nu exista!");
                     }
                     break;
                 case "2":
+                    // register
                     System.out.println("Introduceti username-ul:");
                     user.setUsername( scanner.nextLine());
                     System.out.println("parola(nu a fost buget pt parole ascunse)?");

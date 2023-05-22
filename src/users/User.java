@@ -29,8 +29,9 @@ public class User {
         this.role = role;
     }
 
-    public void login(String username, String password) {
-        System.out.println("User.login");
+    public User login(String username, String password) {
+        User user = db.loginUser(username, password);
+        return user;
     }
 
     public void register(User user){

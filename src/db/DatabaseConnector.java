@@ -104,21 +104,16 @@ public final class DatabaseConnector {
     }
 
     public void updateBook(Carte carte, Integer id_client) {
-        int id_carte = 0;
+        Integer id_carte = null;
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE carti SET title = ?, author = ?, genre = ?, description = ?, quantity = ?, numcheckedout = ? WHERE isbn = ?");
-            statement.setString(1, carte.getTitle());
-            statement.setString(2, carte.getAuthor());
-            statement.setString(3, carte.getGenre());
-            statement.setString(4, carte.getDescription());
-            statement.setInt(5, carte.getQuantity());
-            statement.setInt(6, carte.getNumCheckedOut());
-            statement.setString(7, carte.getIsbn());
+            // update num checked out
+            PreparedStatement statement = connection.prepareStatement("UPDATE carti SET  numcheckedout = ? WHERE isbn = ?");
+            statement.setInt(1, carte.getNumCheckedOut());
+            statement.setString(2, carte.getIsbn());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 //        get book id
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT id FROM carti WHERE isbn = ?");
@@ -130,12 +125,34 @@ public final class DatabaseConnector {
             e.printStackTrace();
         }
 
-//        insert into imprumut
+        // verifica daca era imprumutata cartea
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO imprumut(id_carte, id_client) VALUES (?, ?)");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM imprumut WHERE id_carte = ? AND id_client = ?");
             statement.setInt(1, id_carte);
             statement.setInt(2, id_client);
-            statement.executeUpdate();
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                // daca era imprumutata, adauga data returnare
+                try {
+                    PreparedStatement statement2 = connection.prepareStatement("UPDATE imprumut SET data_returnare = ? WHERE id_carte = ? AND id_client = ?");
+                    statement2.setDate(1, new Date(System.currentTimeMillis()));
+                    statement2.setInt(2, id_carte);
+                    statement2.setInt(3, id_client);
+                    statement2.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                // adauga in imprumut
+                try {
+                    PreparedStatement statement2 = connection.prepareStatement("INSERT INTO imprumut(id_carte, id_client) VALUES (?, ?)");
+                    statement2.setInt(1, id_carte);
+                    statement2.setInt(2, id_client);
+                    statement2.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -169,16 +186,26 @@ public final class DatabaseConnector {
 
         return null;
     }
+
+    public User loginUser(String username, String password) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM client WHERE username = ? AND password = ?");
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            Integer id = resultSet.getInt("id");
+            String email = resultSet.getString("email");
+            String lastName = resultSet.getString("last_name");
+            String firstName = resultSet.getString("first_name");
+            String gender = resultSet.getString("gender");
+            String ocupation = resultSet.getString("ocupation");
+
+            User user = new User(id, username, password, firstName, lastName, email, gender, ocupation);
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
-
-
-
-
-//            // Process the results
-//            while (resultSet.next()) {
-//                String data = resultSet.getString("title");
-//                System.out.println(data);
-//                // Process data
-//            }
-//                if (resultSet != null) resultSet.close();
-//                if (statement != null) statement.close();
