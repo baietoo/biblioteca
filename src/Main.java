@@ -15,12 +15,12 @@ public class Main {
 
         System.out.println("Vrei sa fii mai destept?");
         System.out.println("1. Da");
-        System.out.println("2. 1x la pauza Atletico Madrid");
+        System.out.println("2. Vreau sa merg la un gratar");
         raspuns = scanner.nextLine();
 
         System.out.println("Ai cont la noi?");
         System.out.println("1. Da");
-        System.out.println("2. Gratar");
+        System.out.println("2. Gratar va rog");
         raspuns = scanner.nextLine();
             System.out.println("1. Logheaza-te odata si mai citeste ceva");
             System.out.println("2. creaza-ti cont si mai citeste ceva");
@@ -108,8 +108,5 @@ public class Main {
                     System.out.println("Optiune invalida!");
             }
         }
-
-
-//        app.checkOutBook("12312312322", 1);
     }
 }

@@ -64,7 +64,8 @@ create table IF NOT EXISTS carti (
 - La pornirea programului se vor încărca datele din fișiere utilizând serviciile create;
 
 ### Toate operatiunile din aplicatie vor fi auditate folosind un serviciu de audit
-- Se va realiza un serviciu care sa scrie într-un fișier de tip CSV sau in baza de date de fiecare data când este executată una dintre acțiunile descrise în prima etapa. Structura fișierului/ tabelului: nume_actiune, timestamp
+- Se va realiza un serviciu care sa scrie într-un fișier de tip CSV sau in baza de date de fiecare data când este executată una dintre acțiunile descrise în prima etapa.
+- Structura fișierului/ tabelului: nume_actiune, timestamp
 - > OBS: Aplicatia va expune un meniu in consola astfel incat operatiunile posibile pot fi selectate  prin introducerea de la tastatura a cuvintelor cheie
 
 Teme Sugerate

@@ -43,6 +43,7 @@ public final class DatabaseConnector {
     }
 
     public Carte findByIsbn(String isbn) {
+        logareActiune("Cautare dupa ISBN");
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM carti WHERE isbn = ?");
             statement.setString(1, isbn);
@@ -64,6 +65,7 @@ public final class DatabaseConnector {
     }
 
     public ArrayList<Carte> findByTitle(String keyword) {
+        logareActiune("Cautare dupa titlu");
         ArrayList<Carte> booksFound = new ArrayList<>();
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM carti WHERE upper(title) LIKE upper(?) ");
@@ -133,6 +135,7 @@ public final class DatabaseConnector {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 // daca era imprumutata, adauga data returnare
+                logareActiune("returnare carte");
                 try {
                     PreparedStatement statement2 = connection.prepareStatement("UPDATE imprumut SET data_returnare = ? WHERE id_carte = ? AND id_client = ?");
                     statement2.setDate(1, new Date(System.currentTimeMillis()));
@@ -144,6 +147,7 @@ public final class DatabaseConnector {
                 }
             } else {
                 // adauga in imprumut
+                logareActiune("imprumutare carte");
                 try {
                     PreparedStatement statement2 = connection.prepareStatement("INSERT INTO imprumut(id_carte, id_client) VALUES (?, ?)");
                     statement2.setInt(1, id_carte);
@@ -159,6 +163,7 @@ public final class DatabaseConnector {
     }
 
     public void registerUser(User user) {
+        logareActiune("registerUser");
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO client(username, password, email, last_name, first_name) VALUES (?, ?, ?, ?, ?)");
             statement.setString(1, user.getUsername());
@@ -188,6 +193,8 @@ public final class DatabaseConnector {
     }
 
     public User loginUser(String username, String password) {
+        logareActiune("login");
+
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM client WHERE username = ? AND password = ?");
             statement.setString(1, username);
@@ -207,5 +214,15 @@ public final class DatabaseConnector {
             e.printStackTrace();
         }
         return null;
+    }
+    private void logareActiune(String numeActiune) {
+        // logare actiune
+        try {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO loguri(nume_actiune) VALUES (?)");
+            statement.setString(1, numeActiune);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
