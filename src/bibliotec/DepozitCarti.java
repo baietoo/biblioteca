@@ -34,4 +34,14 @@ public class DepozitCarti {
     public void deleteBook(String isbn) {
         db.deleteBook(isbn);
     }
+
+    public ArrayList<Carte> getCheckedOutBooks(Integer client_id) {
+        ArrayList<Carte> carti = db.getCheckedOutBooks(client_id);
+        return carti;
+    }
+
+    public ArrayList<Carte> getAvailableBooks() {
+        ArrayList<Carte> carti = db.getAvailableBooks();
+        return carti;
+    }
 }

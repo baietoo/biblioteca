@@ -74,6 +74,8 @@ public  class MeniuClient {
                     app.searchByTitle(titlu);
                     break;
                 case "3":
+                    // imprumuta carte
+                    app.getAvailableBooks();
                     if(client != null) {
                         System.out.println("Introduceti ISBN-ul cartii:");
                         isbn = scanner.nextLine();
@@ -83,6 +85,8 @@ public  class MeniuClient {
                     }
                     break;
                 case "4":
+                    // returneaza carte
+                    app.getCheckedOutBooks(client.getId());
                     if(client != null) {
                         System.out.println("Introduceti ISBN-ul cartii:");
                         isbn = scanner.nextLine();
@@ -93,7 +97,6 @@ public  class MeniuClient {
                     break;
                 case "5":
                     System.out.println("Oricum inchideam!");
-                    return;
                 default:
                     System.out.println("Optiune invalida!");
             }

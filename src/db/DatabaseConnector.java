@@ -260,4 +260,59 @@ public final class DatabaseConnector {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<Carte> getCheckedOutBooks(Integer client_id) {
+        logareActiune("carti imprumutate");
+        ArrayList<Carte> carti = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM imprumut WHERE id_client = ? AND data_returnare IS NULL");
+            statement.setInt(1, client_id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                Integer id_carte = resultSet.getInt("id_carte");
+                PreparedStatement statement2 = connection.prepareStatement("SELECT * FROM carti WHERE id = ?");
+                statement2.setInt(1, id_carte);
+                ResultSet resultSet2 = statement2.executeQuery();
+                resultSet2.next();
+                String isbn = resultSet2.getString("isbn");
+                String title = resultSet2.getString("title");
+                String author = resultSet2.getString("author");
+                String genre = resultSet2.getString("genre");
+                String description = resultSet2.getString("description");
+                int quantity = resultSet2.getInt("quantity");
+                int numCheckedOut = resultSet2.getInt("numcheckedout");
+                Carte carte = new Carte(isbn, title, genre, description, author, quantity, numCheckedOut);
+                carti.add(carte);
+            }
+                return carti;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ArrayList<Carte> getAvailableBooks() {
+        logareActiune("carti disponibile");
+        ArrayList<Carte> carti = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM carti WHERE quantity > numcheckedout");
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String isbn = resultSet.getString("isbn");
+                String title = resultSet.getString("title");
+                String author = resultSet.getString("author");
+                String genre = resultSet.getString("genre");
+                String description = resultSet.getString("description");
+                int quantity = resultSet.getInt("quantity");
+                int numCheckedOut = resultSet.getInt("numcheckedout");
+                Carte carte = new Carte(isbn, title, genre, description, author, quantity, numCheckedOut);
+                carti.add(carte);
+            }
+            return carti;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

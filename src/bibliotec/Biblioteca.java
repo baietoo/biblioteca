@@ -129,4 +129,22 @@ public class Biblioteca {
         System.out.println("Carte stearsa cu succes.");
         System.out.println();
     }
+
+    public void getCheckedOutBooks(Integer client_id) {
+        ArrayList<Carte> carti = bookRepo.getCheckedOutBooks(client_id);
+        System.out.printf("%s Carti imprumutate%s\n", carti.size(), carti.size() > 0 ? ":" : ".");
+        for (Carte carte : carti){
+            System.out.println( "ISBN: " + carte.getIsbn() + ", " + carte.getTitle() + ", Author: " + carte.getAuthor() + ";");
+        }
+        System.out.println();
+    }
+
+    public void getAvailableBooks() {
+        ArrayList<Carte> carti = bookRepo.getAvailableBooks();
+        System.out.printf("%s Carti disponibile%s\n", carti.size(), carti.size() > 0 ? ":" : ".");
+        for (Carte carte : carti){
+            System.out.println( "ISBN: " + carte.getIsbn() + ", " + carte.getTitle() + ", Author: " + carte.getAuthor() + ";");
+        }
+        System.out.println();
+    }
 }

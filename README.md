@@ -1,7 +1,7 @@
 # biblioteca
 PAO - proiect biblioteca
 
-# TODO: lista cu cartile imprumutate cand accesezi optiunea
+# TODO: lista cu cartile imprumutate cand accesezi optiunea de returnare
 # TODO: lista cu cartile care se pot imprumuta cand accesezi optiunea
 
 # TODO: intoarcere meniu principal
