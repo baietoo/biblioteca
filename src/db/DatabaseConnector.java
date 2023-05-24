@@ -1,5 +1,6 @@
 package db;
 import bibliotec.Carte;
+import users.Bibliotecar;
 import users.User;
 
 import java.sql.*;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 
 public final class DatabaseConnector {
     private static DatabaseConnector instance;
-    private String db_path = "jdbc:postgresql://localhost:32768/postgres";
+    private final String db_path = "jdbc:postgresql://localhost:32768/postgres";
     private Connection connection;
 
     private DatabaseConnector() {
@@ -26,6 +27,7 @@ public final class DatabaseConnector {
     }
 
     public void insertBook(Carte carte) {
+        logareActiune("Inserare carte");
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO carti (isbn, title, author,genre, description, quantity, numcheckedout) VALUES (?, ?, ?, ?, ?, ?, ?)");
             statement.setString(1, carte.getIsbn());
@@ -90,8 +92,9 @@ public final class DatabaseConnector {
     }
 
     public void updateBook(Carte carte) {
+        logareActiune("Modificare carte");
         try {
-            PreparedStatement statement = connection.prepareStatement("UPDATE carti SET title = ?, author = ?, genre = ?, description = ?, quantity = ?, numcheckedout = ? WHERE isbn = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE carti SET title = ?, author = ?, genre = ?, description = ?, quantity = ?, numcheckedout = ?, last_accessed_date = current_timestamp WHERE isbn = ?");
             statement.setString(1, carte.getTitle());
             statement.setString(2, carte.getAuthor());
             statement.setString(3, carte.getGenre());
@@ -221,6 +224,38 @@ public final class DatabaseConnector {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO loguri(nume_actiune) VALUES (?)");
             statement.setString(1, numeActiune);
             statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Bibliotecar loginBibliotecar(String username, String password) {
+        logareActiune("loginBibliotecar");
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM bibliotecar WHERE username = ? AND password = ?");
+            statement.setString(1, username);
+            statement.setString(2, password);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            Integer id = resultSet.getInt("id");
+            String lastName = resultSet.getString("last_name");
+            String firstName = resultSet.getString("first_name");
+            Bibliotecar bibliotecar = new Bibliotecar(id, username, password, firstName, lastName);
+            return bibliotecar;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void deleteBook(String isbn) {
+        // delete book from carti
+        logareActiune("sterge carte");
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM carti WHERE isbn = ?");
+            statement.setString(1, isbn);
+            statement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -30,4 +30,8 @@ public class DepozitCarti {
     public void updateBook(Carte carte, Integer id_client) {
         db.updateBook(carte, id_client);
     }
+
+    public void deleteBook(String isbn) {
+        db.deleteBook(isbn);
+    }
 }

@@ -2,17 +2,17 @@ package users;
 
 import db.DatabaseConnector;
 
-public class User {
-    private Integer id;
-    private String username;
-    private String password;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String address;
-    private String role;
+public class User implements IUser{
+    protected Integer id;
+    protected String username;
+    protected String password;
+    protected String firstName;
+    protected String lastName;
+    protected String email;
+    protected String address;
+    protected String role;
 
-    private final DatabaseConnector db = DatabaseConnector.getInstance();
+    protected final DatabaseConnector db = DatabaseConnector.getInstance();
 
     public User(){
 
@@ -45,10 +45,6 @@ public class User {
     public Integer getId() {
         id = db.getUserId(username, password);
         return id;
-    }
-
-    private void setId(Integer id) {
-        this.id = id;
     }
 
     public void setUsername(String username) {
@@ -87,19 +83,4 @@ public class User {
         this.email = email;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

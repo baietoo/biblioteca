@@ -1,8 +1,15 @@
 # biblioteca
 PAO - proiect biblioteca
 
+# TODO: lista cu cartile imprumutate cand accesezi optiunea
+# TODO: lista cu cartile care se pot imprumuta cand accesezi optiunea
+
+# TODO: intoarcere meniu principal
+
+
 # Cerinte proiect
-Fiecare student va lucra la un proiect individual Condiția de punctare a proiectelor:
+Fiecare student va lucra la un proiect individual
+Condiția de punctare a proiectelor:
 - să nu prezinte erori de compilare 
 - să se implementeze cerințele date
 ## Definirea sistemului
